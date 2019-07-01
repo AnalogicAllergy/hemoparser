@@ -31,13 +31,21 @@ states = [
 ]    
 
 reqs = []
+locais_p = []
+nome_locais = []
 for state in states:
     print(state)
     req = requests.get('https://www.hemofiliabrasil.org.br/hemofilia/centros-de-tratamento-em-hemofilia/?uf={}'.format(state), verify=False)
     print(req.text)
-    #soup = BeautifulSoup(req.text, 'html.parser')
-    #occurrency = soup.find("section", {"class": "resultado"})
+    soup = BeautifulSoup(req.text, 'html.parser')
+    occurrency = soup.find("section", {"class": "resultado"})
     #print(occurrency.contents)
-    #ocr_h2 = occurrency.find('h2')
-    #print(ocr_h2.contents)
-#print(reqs.text)
+    nome_estado = occurrency.find('h2')
+    nome_locais = occurrency.find_next('ul').findAll('li')
+    for local in nome_locais:
+            locais_p = local.findAll('p')
+            nome_local = local.find('h4')
+     for local_p in locais_p:
+             brs = local_p.findAll(text=True)
+             for br in brs:
+                     print(br)
